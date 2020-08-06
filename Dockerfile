@@ -1,5 +1,7 @@
 FROM ros:indigo-ros-base
+
 LABEL Description="kalibr"
+LABEL AUTHORS="Christian Brommer <>,Martin Scheiber <mascheiber@edu.aau.at>"
 
 # setup environment
 ENV LANG C.UTF-8

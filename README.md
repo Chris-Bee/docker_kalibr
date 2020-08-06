@@ -3,7 +3,7 @@
 
 This is a setup docker container of the [ethz_asl_kalibr](https://github.com/ethz-asl/kalibr) calibration repository.
 
-## Instllation
+## Installation
 
 Clone the repository and build the docker environment.
 
@@ -23,7 +23,7 @@ Run the container in the folder in which your calibration bags are located, as t
 docker run -it --rm --net=host -v "$(pwd)":/kalibr/data kalibr:latest
 ```
 
-If you want to have visual output (and use the kalibr `--show-extraction`) command, you also have to map the display accordingly.
+If you want to have visual output (and use the kalibr `--show-extraction` command), you also have to map the display accordingly.
 
 ```bash
 docker run -it --rm --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" -v "$(pwd)":/kalibr/data kalibr:latest
@@ -37,7 +37,7 @@ Please refer to the [Kalibr Wiki](https://github.com/ethz-asl/kalibr/wiki) for d
 
 An aprilgrid for printouts can be created with the following command
 
-```sh
+```bash
 kalibr_create_target_pdf --type apriltag --nx 5 --ny 7 --tsize 0.025 --tspace 0.4
 ```
 
@@ -60,6 +60,30 @@ The most common models for `<model>` are:
 
 Similar the intrinsics can be calibrated using the following command. The `--show-extraction` can be used if the docker display has been mapped correclty (see [running the container](#run-the-container)).
 
-```sh
-kalibr_calibrate_imu_camera --target target.yaml --cam camchain.yaml --imu imu_model.yaml --bag extrinsics.bag --show-extraction
+```bash
+kalibr_calibrate_imu_camera --target target.yaml --cam camchain.yaml --imu imu_model.yaml --bag ./extrinsics.bag --show-extraction
 ```
+
+---
+
+## License (MIT)
+
+Copyright (c) 2020 Christian Brommer
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
