@@ -7,18 +7,71 @@ ENV LC_ALL C.UTF-8
 ENV TERM xterm
 ENV container docker
 
-RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
-    locale-gen
+RUN export DEBIAN_FRONTEND=noninteractive; \
+    apt-get update && \
+    apt-get dist-upgrade -y && \
+    apt-get install -y \
+    -o "Dpkg::Options::=--force-confdef"  \
+    -o "Dpkg::Options::=--force-confold"  \
+    build-essential \
+    git \
+    gnupg \
+    htop \
+    locales \
+    lsb-release \
+    nano \
+    net-tools \
+    openssh-client \
+    sudo \
+    vim \
+    wget && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/*
 
-ENV LANG=en_US.UTF-8 \
-    LANGUAGE=en_US:en \
-    LC_ALL=en_US.UTF-8
+# For ubuntu < 20.04 udev is a separate package
+RUN apt-get update && apt-get install -y \
+    udev \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install -y git vim wget lsb-release gnupg && rm -rf /var/lib/apt/lists/*
-RUN apt-get update && apt-get install -y python-catkin-tools python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential && rm -rf /var/lib/apt/lists/*
+# Setup locales
+RUN locale-gen en_US.UTF-8
+ENV LANG='en_US.UTF-8' \
+    LANGUAGE='en_US:en' \
+    LC_ALL='en_US.UTF-8'
+
+# Update python for ros
+RUN apt-get update && apt-get install -y  \
+    python-catkin-tools \
+    python-rosdep \
+    python-rosinstall \
+    python-rosinstall-generator \
+    python-wstool && \
+    rm -rf /var/lib/apt/lists/*
 
 ## Install kalibr dependencies
-RUN apt-get update && apt-get install -y python-setuptools python-rosinstall ipython libeigen3-dev libboost-all-dev doxygen libopencv-dev ros-indigo-vision-opencv ros-indigo-image-transport-plugins ros-indigo-cmake-modules software-properties-common software-properties-common libpoco-dev python-matplotlib python-scipy python-git python-pip ipython libtbb-dev libblas-dev liblapack-dev python-catkin-tools libv4l-dev python-pyx && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+    doxygen \
+    ipython \
+    libeigen3-dev \
+    libv4l-dev \
+    libboost-all-dev \
+    libpoco-dev \
+    libtbb-dev \
+    libblas-dev \
+    liblapack-dev \
+    libopencv-dev \
+    python-git \
+    python-matplotlib \
+    python-pip \
+    python-pyx \
+    python-scipy \
+    python-setuptools \
+    ros-indigo-vision-opencv \
+    ros-indigo-image-transport-plugins \
+    ros-indigo-cmake-modules \
+    software-properties-common \
+    software-properties-common && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN pip install --upgrade --user pip
 RUN pip -v install python-igraph==0.7.1.post6
