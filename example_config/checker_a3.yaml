@@ -1,0 +1,6 @@
+target_type: 'checkerboard' #gridtype
+targetCols: 6               #number of apriltags
+targetRows: 9               #number of apriltags
+rowSpacingMeters: 0.04
+colSpacingMeters: 0.04
+

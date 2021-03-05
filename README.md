@@ -38,16 +38,23 @@ Please refer to the [Kalibr Wiki](https://github.com/ethz-asl/kalibr/wiki) for d
 An aprilgrid for printouts can be created with the following command
 
 ```bash
+#Apriltag DIN A4
 kalibr_create_target_pdf --type apriltag --nx 5 --ny 7 --tsize 0.025 --tspace 0.4
+#Apriltag DIN A3
+kalibr_create_target_pdf --type apriltag --nx 5 --ny 7 --tsize 0.035 --tspace 0.5
+#Checkerboard DIN A3
+kalibr_create_target_pdf --type checkerboard --nx 5 --ny 7 --csx 0.035 --csy 0.035
 ```
 
 #### Intrinsics
 
-The intrinsics can be calibrated using the following command. The `--show-extraction` can be used if the docker display has been mapped correclty (see [running the container](#run-the-container)).
+The intrinsics can be calibrated using the following command. The `--show-extraction` can be used if the docker display has been mapped correctly (see [running the container](#run-the-container)).
 
 
 ```bash
 kalibr_calibrate_cameras --topics /camera/image_raw --models <model> --target ./target.yaml  --bag ./<bagname>.bag # --show-extraction
+
+kalibr_calibrate_cameras --topics /camera1/image_raw /camera1/image_raw --models <model1> <model1> --target ./target.yaml  --bag ./<bagname>.bag # --show-extraction
 ```
 
 **Please make sure that the bag is in the folder the container was started. Otherwise it will not be found inside the container!**
@@ -61,7 +68,7 @@ The most common models for `<model>` are:
 Similar the intrinsics can be calibrated using the following command. The `--show-extraction` can be used if the docker display has been mapped correclty (see [running the container](#run-the-container)).
 
 ```bash
-kalibr_calibrate_imu_camera --target target.yaml --cam camchain.yaml --imu imu_model.yaml --bag ./extrinsics.bag --show-extraction
+kalibr_calibrate_imu_camera --target target.yaml --cam camchain.yaml --imu imu_model.yaml --bag ./extrinsics.bag # --show-extraction
 ```
 
 ---
