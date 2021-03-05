@@ -1,7 +1,7 @@
-FROM ros:indigo-ros-base
+FROM ros:melodic-ros-base
 
 LABEL Description="kalibr"
-LABEL AUTHORS="Christian Brommer <>,Martin Scheiber <mascheiber@edu.aau.at>"
+LABEL AUTHORS="Christian Brommer <christian.brommer@aau.at>,Martin Scheiber <mascheiber@edu.aau.at>"
 
 # setup environment
 ENV LANG C.UTF-8
@@ -43,6 +43,8 @@ ENV LANG='en_US.UTF-8' \
 
 # Update python for ros
 RUN apt-get update && apt-get install -y  \
+    python-catkin-pkg \
+    python-osrf-pycommon \
     python-catkin-tools \
     python-rosdep \
     python-rosinstall \
@@ -68,34 +70,33 @@ RUN apt-get update && apt-get install -y \
     python-pyx \
     python-scipy \
     python-setuptools \
-    ros-indigo-vision-opencv \
-    ros-indigo-image-transport-plugins \
-    ros-indigo-cmake-modules \
-    software-properties-common \
+    ros-melodic-vision-opencv \
+    ros-melodic-image-transport-plugins \
+    ros-melodic-cmake-modules \
     software-properties-common && \
     rm -rf /var/lib/apt/lists/*
 
-RUN pip install --upgrade --user pip
-RUN pip -v install python-igraph==0.7.1.post6
-#RUN pip -v install python-igraph==0.8
+RUN apt-get update && apt-get install -y \
+    python-igraph && \
+    rm -rf /var/lib/apt/lists/*
 
 ## Setup catkin workspace
 RUN mkdir -p /kalibr/catkin_ws/src
 WORKDIR /kalibr/catkin_ws
-RUN bash -c 'source /opt/ros/indigo/setup.bash && catkin init'
+RUN bash -c 'source /opt/ros/melodic/setup.bash && catkin init && catkin config --cmake-args -DCMAKE_BUILD_TYPE=Release'
 
 ## Get and build kalibr
 WORKDIR /kalibr/catkin_ws/src
-RUN git clone https://github.com/ethz-asl/Kalibr.git && cd Kalibr/  && git checkout 67fcce98676f6db2528
+RUN git clone https://github.com/ethz-asl/Kalibr.git && cd Kalibr/  && git checkout master
 WORKDIR /kalibr/catkin_ws
-RUN bash -c 'source /opt/ros/indigo/setup.bash && catkin build -DCMAKE_BUILD_TYPE=Release -j4'
+RUN bash -c 'source /opt/ros/melodic/setup.bash && catkin build -j4'
 
-RUN ln /dev/null /dev/raw1394
+#RUN ln /dev/null /dev/raw1394
 
 RUN mkdir /kalibr/data
 WORKDIR /kalibr/data
 
 #RUN useradd -md /kalibr kalibr
 #USER kalibr
-RUN echo "source /opt/ros/indigo/setup.bash" >> ~/.bashrc
+RUN echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 RUN echo "source /kalibr/catkin_ws/devel/setup.bash" >> ~/.bashrc
