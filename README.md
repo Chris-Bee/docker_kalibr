@@ -3,7 +3,7 @@
 
 This is a setup docker container of the [ethz_asl_kalibr](https://github.com/ethz-asl/kalibr) calibration repository.
 
-## Installation
+## Building the Container
 
 Clone the repository and build the docker environment.
 
@@ -12,6 +12,11 @@ git clone https://github.com/Chris-Bee/docker_kalibr.git
 cd docker_kalibr
 docker build --network=host -t kalibr:latest .
 ```
+
+## Pulling a Pre-Build Docker Image
+
+A pre-build docker image of this dockerfile can be found [here](https://hub.docker.com/r/christianbrommer/kalibr), and you can pull it by running `docker pull christianbrommer/kalibr`.
+If you do pull the image, then the name for running the image changes from `kalibr:latest` to `christianbrommer/kalibr:latest`.
 
 ## Usage
 
