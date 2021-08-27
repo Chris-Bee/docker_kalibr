@@ -89,6 +89,10 @@ RUN bash -c 'source /opt/ros/melodic/setup.bash && catkin init && catkin config 
 WORKDIR /kalibr/catkin_ws/src
 RUN git clone https://github.com/ethz-asl/Kalibr.git && cd Kalibr/  && git checkout master
 WORKDIR /kalibr/catkin_ws
+
+# Add --no-check-certificate for wget on SuiteSparse until its fixed upstream
+RUN sed -i 's|wget http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-${VERSION}.tar.gz|wget http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-${VERSION}.tar.gz --no-check-certificate|g' src/Kalibr/suitesparse/CMakeLists.txt
+
 RUN bash -c 'source /opt/ros/melodic/setup.bash && catkin build -j4'
 
 #RUN ln /dev/null /dev/raw1394
