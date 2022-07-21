@@ -1,5 +1,6 @@
+[![Docker Image CI](https://github.com/Chris-Bee/docker_kalibr/actions/workflows/docker-image.yml/badge.svg)](https://github.com/Chris-Bee/docker_kalibr/actions/workflows/docker-image.yml)
 
-# ETHZ_KALIBR Docker container
+# Kalibr Docker container
 
 This is a setup docker container of the [ethz_asl_kalibr](https://github.com/ethz-asl/kalibr) calibration repository.
 
