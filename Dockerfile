@@ -85,9 +85,9 @@ RUN mkdir -p /kalibr/catkin_ws/src
 WORKDIR /kalibr/catkin_ws
 RUN bash -c 'source /opt/ros/melodic/setup.bash && catkin init && catkin config --cmake-args -DCMAKE_BUILD_TYPE=Release'
 
-## Get and build kalibr
+## Get and build kalibr at certain commit
 WORKDIR /kalibr/catkin_ws/src
-RUN git clone https://github.com/ethz-asl/Kalibr.git && cd Kalibr/  && git checkout master
+RUN git clone https://github.com/ethz-asl/Kalibr.git && cd Kalibr/ && git checkout 60f0f1e7
 WORKDIR /kalibr/catkin_ws
 
 # Add --no-check-certificate for wget on SuiteSparse until its fixed upstream
